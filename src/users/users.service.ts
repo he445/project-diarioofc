@@ -20,14 +20,18 @@ constructor(private readonly prisma: PrismaService) {}
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} user`;
+   return this.prisma.user.findUnique({where: {id}})
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  update(id: string, dto: UpdateUserDto) {
+    const data: Partial<Users>= {...dto}
+    return this.prisma.user.update({
+      where: {id},
+      data
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id:string) {
+    await this.prisma.user.delete({ where: { id } });;
   }
 }
