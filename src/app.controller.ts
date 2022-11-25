@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
-
+@ApiTags('status')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
@@ -9,4 +10,7 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+}
+function ApiTagss(arg0: string) {
+  throw new Error('Function not implemented.');
 }
