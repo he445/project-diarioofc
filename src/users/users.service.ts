@@ -19,7 +19,7 @@ constructor(private readonly prisma: PrismaService) {}
     return this.prisma.user.findMany();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} user`;
   }
 
