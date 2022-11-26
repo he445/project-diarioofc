@@ -1,37 +1,75 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
+import { randomUUID } from 'node:crypto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Users } from './entities/user.entity';
 
-
 @Injectable()
 export class UsersService {
-constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
   create(dto: CreateUserDto) {
-   const data: Users= {...dto}
-   return this.prisma.user.create({
-    data
-  });
+    try {
+      const data: Users = { ...dto, id: randomUUID() };
+      return this.prisma.user.create({
+        data,
+      });
+    } catch (error) {
+      this.errorHandeling(error);
+    }
   }
 
   findAll() {
-    return this.prisma.user.findMany();
+    try {
+      return this.prisma.user.findMany();
+    } catch (error) {
+      this.errorHandeling(error);
+    }
   }
 
-  findOne(id: string) {
-   return this.prisma.user.findUnique({where: {id}})
+  async findOne(id: string) {
+    try {
+      return this.findById(id);
+    } catch (error) {
+      this.errorHandeling(error);
+    }
   }
 
-  update(id: string, dto: UpdateUserDto) {
-    const data: Partial<Users>= {...dto}
-    return this.prisma.user.update({
-      where: {id},
-      data
+  async update(id: string, dto: UpdateUserDto) {
+    await this.findById(id);
+    try {
+      const data: Partial<Users> = { ...dto };
+      return this.prisma.user.update({
+        where: { id },
+        data,
+      });
+    } catch (error) {
+      this.errorHandeling(error);
+    }
+  }
+
+  async remove(id: string) {
+    await this.findById(id);
+    try {
+      await this.prisma.user.delete({ where: { id } });
+      return `usuario '${id}' deletado com sucesso!`;
+    } catch (error) {
+      this.errorHandeling(error);
+    }
+  }
+
+  errorHandeling(error: Error) {
+    const errorMensage = new PrismaClient({
+      errorFormat: 'pretty',
     });
+    throw errorMensage || 'algum erro aconteceu, desculpe';
   }
-
-  async remove(id:string) {
-    await this.prisma.user.delete({ where: { id } });;
+  async findById(id: string) {
+    const record = await this.prisma.user.findUnique({ where: { id } });
+    if (!record) {
+      throw new NotFoundException(`O id '${id}' não foiencontrado`);
+    }
+    return record;
   }
 }

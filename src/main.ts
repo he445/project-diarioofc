@@ -10,7 +10,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('DiarioApi')
     .setDescription('Aplicação para compartilhamento de escritos')
-    .setVersion('0.0.3')
+    .setVersion('0.0.5')
     .addTag('status')
     .addTag('users')
     .build();
