@@ -11,15 +11,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @unique
+  id        String    @id @unique
   name      String
-  email     String   @unique
+  email     String    @unique
   password  String
-  cpf       String   @unique
+  cpf       String    @unique
   role      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Profile   Profile? @relation(fields: [profileId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Profiles  Profile[]
   profileId String?
 }
 
@@ -27,5 +27,7 @@ model Profile {
   id             String @id @unique
   name           String
   profilePicture String
-  users          User[]
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
 }
