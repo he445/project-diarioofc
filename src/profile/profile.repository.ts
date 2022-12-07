@@ -16,6 +16,9 @@ export class ProfileRespository {
     include: { User: true}
     });
   }
+  async findAllProfile(){
+    return await this.prismaService.profile.findMany()
+  }
   
   }
 

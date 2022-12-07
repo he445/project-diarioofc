@@ -24,8 +24,12 @@ export class ProfileService {
     }
   }
 
-  findAll() {
-    return `This action returns all profile`;
+  async findAll() {
+    try {
+      return await this.profileRepository.findAllProfile()
+    } catch (error) {
+      
+    }
   }
 
   findOne(id: number) {
