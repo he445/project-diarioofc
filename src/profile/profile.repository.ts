@@ -19,6 +19,13 @@ export class ProfileRespository {
   async findAllProfile(){
     return await this.prismaService.profile.findMany()
   }
-  
+
+  async findOneProfile(id:string){
+    return await this.prismaService.profile.findUnique({where:{id:id},
+    include:{User: true}})
+        
+    }
   }
+  
+  
 

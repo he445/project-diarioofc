@@ -32,8 +32,13 @@ export class ProfileService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} profile`;
+  async findOne(id: string) {
+   try {
+    const profileFinded= await this.profileRepository.findOneProfile(id)
+    return profileFinded
+   } catch (error) {
+    
+   }
   }
 
  async update(id: string, updateProfileDto: UpdateProfileDto) {
@@ -48,7 +53,12 @@ export class ProfileService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} profile`;
+  async remove(id: string) {
+  try {
+    await this.prisma.profile.delete({ where: { id} });
+      return `perfil '${id}' deletado com sucesso!`;
+  } catch (error) {
+    
+  }
   }
 }
