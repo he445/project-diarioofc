@@ -1,11 +1,27 @@
 import { Injectable } from '@nestjs/common';
+import { Profile } from '@prisma/client';
+import { randomUUID } from 'crypto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { UsersService } from 'src/users/users.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { ProfileRespository } from './profile.repository';
 
 @Injectable()
 export class ProfileService {
-  create(createProfileDto: CreateProfileDto) {
-    return 'This action adds a new profile';
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly userService: UsersService,
+    private readonly profileRepository: ProfileRespository,
+  ) {}
+  async create(createProfileDto: CreateProfileDto) {
+    await this.userService.findById(createProfileDto.userId)
+    try {
+      const profile: Profile ={...createProfileDto, id: randomUUID() }
+      await this.profileRepository.creatProfile(profile)
+    } catch (error) {
+      
+    }
   }
 
   findAll() {
