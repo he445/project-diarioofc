@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Profile } from '../profile/entities/profile.entity';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 @Injectable()
 export class ProfileRespository {
   constructor(private readonly prismaService: PrismaService) {}
@@ -15,4 +16,6 @@ export class ProfileRespository {
     include: { User: true}
     });
   }
-}
+  
+  }
+

@@ -18,7 +18,7 @@ export class ProfileService {
     await this.userService.findById(createProfileDto.userId)
     try {
       const profile: Profile ={...createProfileDto, id: randomUUID() }
-      await this.profileRepository.creatProfile(profile)
+      return await this.profileRepository.creatProfile(profile)
     } catch (error) {
       
     }
@@ -32,8 +32,16 @@ export class ProfileService {
     return `This action returns a #${id} profile`;
   }
 
-  update(id: number, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${id} profile`;
+ async update(id: string, updateProfileDto: UpdateProfileDto) {
+   try {
+      const data: Partial<Profile> = {...updateProfileDto}
+      return this.prisma.profile.update({
+        where: { id },
+        data,
+      });
+    } catch (error) {
+      
+    }
   }
 
   remove(id: number) {
