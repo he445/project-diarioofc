@@ -20,7 +20,6 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Profiles  Profile[]
-  profileId String?
 }
 
 model Profile {
@@ -39,6 +38,6 @@ model Post {
   body      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Profile   Profile? @relation(fields: [profileId], references: [id])
   profileId String?
+  Profile   Profile? @relation(fields: [profileId], references: [id])
 }

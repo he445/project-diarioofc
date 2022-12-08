@@ -1,1 +1,5 @@
-export class Post {}
+import { CreatePostDto } from "../dto/create-post.dto";
+
+export class Post extends CreatePostDto {
+    id: string
+}
