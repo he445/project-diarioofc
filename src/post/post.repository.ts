@@ -12,5 +12,11 @@ export class PostRespository {
       include: {Profile: true}
     });
   }
+  async findAllPost(){
+    return await this.prismaService.post.findMany()
+}
+async findOnePost(id:string){
+    return await this.prismaService.post.findUnique({where:{id:id},
+    include:{Profile: true}})}
  
 }

@@ -24,19 +24,41 @@ export class PostService {
    }
   }
 
-  findAll() {
-    return `This action returns all post`;
+ async findAll() {
+   try {
+    return await this.post.findAllPost()
+   } catch (error) {
+    
+   }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async findOne(id: string) {
+    try {
+      const postfinded= await this.post.findOnePost(id)
+      return  postfinded
+    } catch (error) {
+      
+    }
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  update(id: string, updatePostDto: UpdatePostDto) {
+    try {
+      const data: Partial<Post> = {...updatePostDto}
+      return this.prisma.post.update({
+        where: { id },
+        data,
+      });
+    } catch (error) {
+      
+    };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+ async remove(id: string) {
+   try {
+    await this.prisma.post.delete({ where: { id}})
+    return `post '${id}' deletado com sucesso!`;
+   } catch (error) {
+    
+   }
   }
 }
