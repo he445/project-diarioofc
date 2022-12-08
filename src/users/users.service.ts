@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { hash } from 'bcrypt';
 import { randomUUID } from 'crypto';
 
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -10,9 +11,11 @@ import { Users } from './entities/user.entity';
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
-  create(dto: CreateUserDto) {
+  async create(dto: CreateUserDto) {
     try {
       const data: Users = { ...dto, id: randomUUID() };
+      const hashedPassword = await hash(dto.password, 10);
+      data.password= hashedPassword
       return this.prisma.user.create({
         data,
       });
