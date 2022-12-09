@@ -12,8 +12,10 @@ async function bootstrap() {
     .setDescription('Aplicação para compartilhamento de escritos')
     .setVersion('0.0.5')
     .addTag('status')
+    .addTag('auth')
     .addTag('users')
     .addTag('profile')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
