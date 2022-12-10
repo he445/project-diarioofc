@@ -76,4 +76,8 @@ export class UsersService {
     }
     return record;
   }
+async  isTheUser (id:string){
+  
+}
+
 }
