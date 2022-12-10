@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { profile } from 'console';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Profile } from '../profile/entities/profile.entity';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -18,6 +19,13 @@ export class ProfileRespository {
   }
   async findAllProfile(){
     return await this.prismaService.profile.findMany()
+  }
+
+  async findAllProfilebyUser(userId:string){
+    return await this.prismaService.profile.findMany({
+      where: {userId:userId},
+      include:{User: true}})
+    
   }
 
   async findOneProfile(id:string){

@@ -23,10 +23,15 @@ export class ProfileService {
       
     }
   }
-
   async findAll() {
     try {
       return await this.profileRepository.findAllProfile()
+    } catch (error) {}}
+  
+
+  async findAllbyUser(id: string) {
+    try {
+      return await this.profileRepository.findAllProfilebyUser(id)
     } catch (error) {
       
     }
@@ -58,7 +63,7 @@ export class ProfileService {
     await this.prisma.profile.delete({ where: { id} });
       return `perfil '${id}' deletado com sucesso!`;
   } catch (error) {
-    
+    console.log(id)
   }
   }
 }

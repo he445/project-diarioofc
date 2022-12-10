@@ -6,9 +6,10 @@ import { PostRespository } from './post.repository';
 import { ProfileService } from 'src/profile/profile.service';
 import { UsersService } from 'src/users/users.service';
 import { ProfileRespository } from 'src/profile/profile.repository';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule,PassportModule.register({ defaultStrategy: 'jwt' })],
   controllers: [PostController],
   providers: [PostRespository,PostService,ProfileService,ProfileRespository,UsersService]
 })

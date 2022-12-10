@@ -16,8 +16,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { isAdmin } from 'src/auth/decorators/isAdmsin.decorator';
 import { Users } from './entities/user.entity';
-import { isTheUser } from 'src/auth/decorators/isTheUser.decorator';
-import { ParameterLocation, ParameterObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
+import { isTheOwner } from 'src/auth/decorators/isTheOwner.decorator';
+
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
@@ -31,38 +31,52 @@ export class UsersController {
   @Get()
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
-  findAll(@isAdmin() user:Users) {
+  
+  findAll(@isAdmin() user: Users) {
     return this.usersService.findAll();
   }
 
   @Get(':id')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
- 
-  findOne(@isTheUser() user:Users, @Param('id') id: string) {
-    if(user.id!== id){ throw new UnauthorizedException(
-      'user not have permission to access this route',
-    );}
-  return this.usersService.findOne(id);
+  findOne(@isTheOwner () owner: Users, @Param('id') id: string) {
+    if (owner.id !== id && owner.role !== 'admin' ) {
+    
+      throw new UnauthorizedException(
+        'user not have permission to access this route',
+      );
+    }
+    console.log(owner.id,id,owner.role)
+    return this.usersService.findOne(id);
   }
 
   @Patch(':id')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
-  update(@isTheUser() user:Users,@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    if(user.id!== id){ throw new UnauthorizedException(
-      'user not have permission to access this route',
-    );}
-    return this.usersService.update(id, updateUserDto);
+  update(
+    @isTheOwner () owner: Users,
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    if (owner.id !== id && owner.role !== 'admin' ) {
+    
+      throw new UnauthorizedException(
+        'user not have permission to access this route',
+      );
+    }
+    return this.usersService.findOne(id);
   }
 
   @Delete(':id')
   @UseGuards(AuthGuard())
   @ApiBearerAuth()
-  remove(@isTheUser() user:Users,@Param('id') id: string) {
-    if(user.id!== id){ throw new UnauthorizedException(
-      'user not have permission to access this route',
-    );}
-    return this.usersService.remove(id);
+  remove(@isTheOwner () owner: Users, @Param('id') id: string) {
+    if (owner.id !== id && owner.role !== 'admin' ) {
+    
+      throw new UnauthorizedException(
+        'user not have permission to access this route',
+      );
+    }
+    return this.usersService.findOne(id);
   }
 }
