@@ -13,9 +13,9 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
   async create(dto: CreateUserDto) {
     try {
-      const data: Users = { ...dto, id: randomUUID() };
+      const data: Users = { ...dto, id: randomUUID(), role: 'user' };
       const hashedPassword = await hash(dto.password, 10);
-      data.password= hashedPassword
+      data.password = hashedPassword;
       return this.prisma.user.create({
         data,
       });
@@ -76,8 +76,4 @@ export class UsersService {
     }
     return record;
   }
-async  isTheUser (id:string){
-  
-}
-
 }

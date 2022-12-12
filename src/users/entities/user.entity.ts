@@ -1,3 +1,5 @@
+import { Profile } from "src/profile/entities/profile.entity";
+
 export class Users {
   id: string;
   name: string;
@@ -5,4 +7,5 @@ export class Users {
   password: string;
   cpf: string;
   role: string;
+  profiles?: Profile[]
 }

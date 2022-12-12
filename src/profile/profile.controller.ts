@@ -9,6 +9,7 @@ import { Users } from 'src/users/entities/user.entity';
 import { isAdmin } from 'src/auth/decorators/isAdmsin.decorator';
 import { isTheOwner } from 'src/auth/decorators/isTheOwner.decorator';
 import { Profile } from './entities/profile.entity';
+import { isTheProfile } from 'src/auth/decorators/isTheProfile.decorator';
 @ApiTags('profile')
 @UseGuards(AuthGuard())
   @ApiBearerAuth()
@@ -28,7 +29,7 @@ export class ProfileController {
     
     
   @Get()
-  findAll( @isAdmin() user: Users) {
+  findAll(@isAdmin() user: Users ) {
     return this.profileService.findAll();
   }
 
