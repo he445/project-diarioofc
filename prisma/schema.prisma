@@ -15,29 +15,44 @@ model User {
   name      String
   email     String    @unique
   password  String
-  cpf       String    @unique
+  image     String?
+  bio       String?
+  posts     Post[]    @relation("UserPosts")
+  likes     Post[]    @relation("UserLikes")
+  comments  Comment[]
+  following User[]    @relation("UserFollows")
+  followers User[]    @relation("UserFollows")
+
   role      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  Profiles  Profile[]
-}
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-model Profile {
-  id             String @id @unique
-  name           String
-  profilePicture String
-
-  User   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String?
-  posts  Post[]
+  @@map("users")
 }
 
 model Post {
-  id        String   @id @unique
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   title     String
-  body      String   @unique
+  content   String
+  likedBy   User[]    @relation("UserLikes")
+  comments  Comment[]
+  author    User      @relation("UserPosts", fields: [authorId], references: [id])
+  authorId  String
+
+  @@map("posts")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  profileId String?
-  Profile   Profile? @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  content   String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String
+
+  @@map("comments")
 }

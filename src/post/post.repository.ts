@@ -8,8 +8,8 @@ export class PostRespository {
   constructor(private readonly prismaService: PrismaService) {}
   async creatPost({ id, profileId, title, body }: Post) {
     return await this.prismaService.post.create({
-      data: { id: id, profileId: profileId, title: title, body: body },
-      include: {Profile: true}
+      data: { id: id, authorId: profileId, title: title, content: body },
+      include: {author: true}
     });
   }
   async findAllPost(){
@@ -17,6 +17,6 @@ export class PostRespository {
 }
 async findOnePost(id:string){
     return await this.prismaService.post.findUnique({where:{id:id},
-    include:{Profile: true}})}
+    include:{author: true}})}
  
 }

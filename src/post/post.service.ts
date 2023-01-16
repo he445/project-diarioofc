@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Post } from '../post/entities/post.entity';
 import { randomUUID } from 'crypto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { ProfileService } from 'src/profile/profile.service';
+import { UsersService } from 'src/users/users.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostRespository } from './post.repository';
@@ -13,7 +13,7 @@ export class PostService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly post: PostRespository,
-    private readonly profile: ProfileService,
+    private readonly profile: UsersService,
   ) {}
   async create(createPostDto: CreatePostDto) {
     await this.profile.findOne(createPostDto.profileId);
