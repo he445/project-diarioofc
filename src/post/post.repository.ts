@@ -6,9 +6,9 @@ import { prisma } from '@prisma/client';
 @Injectable()
 export class PostRespository {
   constructor(private readonly prismaService: PrismaService) {}
-  async creatPost({ id, profileId, title, body }: Post) {
+  async creatPost({ id, profileId, title, content}: Post) {
     return await this.prismaService.post.create({
-      data: { id: id, authorId: profileId, title: title, content: body },
+      data: { id: id, authorId: profileId, title: title, content: content },
       include: {author: true}
     });
   }

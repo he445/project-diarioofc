@@ -10,5 +10,5 @@ export class CreatePostDto {
   title: string;
   @ApiProperty()
   @IsString()
-  body: string;
+  content: string;
 }
