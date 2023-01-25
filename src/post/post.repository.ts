@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Post } from '../post/entities/post.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { prisma } from '@prisma/client';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class PostRespository {
@@ -10,6 +11,12 @@ export class PostRespository {
     return await this.prismaService.post.create({
       data: { id: id, authorId: profileId, title: title, content: content },
       include: {author: true}
+    });
+  }
+  async updatePost (id:string, { profileId, title, content}:UpdatePostDto){
+    return await this.prismaService.post.update({
+      where: { id:id },
+      data:{authorId: profileId, title: title, content: content}
     });
   }
   async findAllPost(){

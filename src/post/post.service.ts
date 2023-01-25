@@ -42,15 +42,11 @@ export class PostService {
     }
   }
 
-  update(id: string, updatePostDto: UpdatePostDto) {
+  async update(id: string, updatePostDto: UpdatePostDto) {
     try {
-      const data: Partial<Post> = { ...updatePostDto };
-      return this.prisma.post.update({
-        where: { id },
-        data,
-      });
+return await this.post.updatePost(id,updatePostDto)
     } catch (error) {
-      this.errorHandeling(error);
+      console.log(error);
     }
   }
 
