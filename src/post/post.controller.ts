@@ -1,9 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { Users } from 'src/users/entities/user.entity';
+import { isTheOwner } from 'src/auth/decorators/isTheOwner.decorator';
+
 @ApiTags('post')
 @UseGuards(AuthGuard())
   @ApiBearerAuth()
@@ -18,6 +21,7 @@ export class PostController {
 
   @Get()
   findAll() {
+   
     return this.postService.findAll();
   }
 
@@ -27,12 +31,25 @@ export class PostController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
+  update( @isTheOwner () owner: Users,@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
+    console.log("eita", owner.id,updatePostDto.profileId )
+    if(owner.id != updatePostDto.profileId){
+      throw new UnauthorizedException(
+        'user not have permission to access this route',
+      );
+      }
+    
     return this.postService.update(id, updatePostDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove( @isTheOwner () owner: Users,@Body() updatePostDto: UpdatePostDto,@Param('id') id: string) {
+    console.log("eita", owner.id,updatePostDto.profileId )
+    if(owner.id != updatePostDto.profileId){
+      throw new UnauthorizedException(
+        'user not have permission to access this route',
+      );
+      }
     return this.postService.remove(id);
   }
 }
