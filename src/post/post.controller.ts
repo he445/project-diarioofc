@@ -43,13 +43,8 @@ export class PostController {
   }
 
   @Delete(':id')
-  remove( @isTheOwner () owner: Users,@Body() updatePostDto: UpdatePostDto,@Param('id') id: string) {
-    console.log("eita", owner.id,updatePostDto.profileId )
-    if(owner.id != updatePostDto.profileId){
-      throw new UnauthorizedException(
-        'user not have permission to access this route',
-      );
-      }
+  remove( @Param('id') id: string) {
+    
     return this.postService.remove(id);
   }
 }
