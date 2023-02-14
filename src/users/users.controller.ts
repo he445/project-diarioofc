@@ -64,7 +64,7 @@ export class UsersController {
         'user not have permission to access this route',
       );
     }
-    return this.usersService.findOne(id);
+    return this.usersService.update(id,updateUserDto);
   }
 
   @Delete(':id')
