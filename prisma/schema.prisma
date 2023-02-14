@@ -38,7 +38,7 @@ model Post {
   content   String
   likedBy   User[]    @relation("UserLikes")
   comments  Comment[]
-  author    User      @relation("UserPosts", fields: [authorId], references: [id])
+  author    User      @relation("UserPosts", fields: [authorId], references: [id], onDelete: Cascade)
   authorId  String
 
   @@map("posts")

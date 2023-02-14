@@ -16,7 +16,7 @@ export class PostService {
     private readonly profile: UsersService,
   ) {}
   async create(createPostDto: CreatePostDto) {
-    await this.profile.findOne(createPostDto.profileId);
+    await this.profile.findOne(createPostDto.authorId);
     try {
       const post: Post = { ...createPostDto, id: randomUUID() };
       return await this.post.creatPost(post);

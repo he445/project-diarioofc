@@ -20,7 +20,7 @@ export class UsersService {
         data,
       });
     } catch (error) {
-      this.errorHandeling(error);
+      console.log(error);
     }
   }
 
@@ -28,7 +28,7 @@ export class UsersService {
     try {
       return this.prisma.user.findMany();
     } catch (error) {
-      this.errorHandeling(error);
+      console.log(error);
     }
   }
 
@@ -36,7 +36,7 @@ export class UsersService {
     try {
       return this.findById(id);
     } catch (error) {
-      this.errorHandeling(error);
+      console.log(error);
     }
   }
 
@@ -49,7 +49,7 @@ export class UsersService {
         data,
       });
     } catch (error) {
-      this.errorHandeling(error);
+      console.log(error);
     }
   }
 
@@ -59,16 +59,16 @@ export class UsersService {
       await this.prisma.user.delete({ where: { id } });
       return `usuario '${id}' deletado com sucesso!`;
     } catch (error) {
-      this.errorHandeling(error);
+     console.log(error);
     }
   }
 
-  errorHandeling(error: Error) {
-    const errorMensage = new PrismaClient({
-      errorFormat: 'pretty',
-    });
-    throw errorMensage || 'algum erro aconteceu, desculpe';
-  }
+  // errorHandeling(error: Error) {
+  //   const errorMensage = new PrismaClient({
+  //     errorFormat: 'pretty',
+  //   });
+  //   throw errorMensage || 'algum erro aconteceu, desculpe';
+  // }
   async findById(id: string) {
     const record = await this.prisma.user.findUnique({ where: { id } });
     if (!record) {

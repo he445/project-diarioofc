@@ -7,16 +7,16 @@ import { UpdatePostDto } from './dto/update-post.dto';
 @Injectable()
 export class PostRespository {
   constructor(private readonly prismaService: PrismaService) {}
-  async creatPost({ id, profileId, title, content}: Post) {
+  async creatPost({ id,authorId, title, content}: Post) {
     return await this.prismaService.post.create({
-      data: { id: id, authorId: profileId, title: title, content: content },
+      data: { id: id, authorId:authorId, title: title, content: content },
       include: {author: true}
     });
   }
-  async updatePost (id:string, { profileId, title, content}:UpdatePostDto){
+  async updatePost (id:string, {authorId, title, content}:UpdatePostDto){
     return await this.prismaService.post.update({
       where: { id:id },
-      data:{authorId: profileId, title: title, content: content}
+      data:{authorId:authorId, title: title, content: content}
     });
   }
   async findAllPost(){

@@ -32,8 +32,8 @@ export class PostController {
 
   @Patch(':id')
   update( @isTheOwner () owner: Users,@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    console.log("eita", owner.id,updatePostDto.profileId )
-    if(owner.id != updatePostDto.profileId){
+    console.log("eita", owner.id,updatePostDto.authorId )
+    if(owner.id != updatePostDto.authorId){
       throw new UnauthorizedException(
         'user not have permission to access this route',
       );

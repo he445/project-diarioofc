@@ -4,7 +4,7 @@ import { IsString } from 'class-validator';
 export class CreatePostDto {
   @ApiProperty()
   @IsString()
-  profileId: string;
+  authorId: string;
   @ApiProperty()
   @IsString()
   title: string;
