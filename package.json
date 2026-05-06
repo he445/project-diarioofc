@@ -1,6 +1,9 @@
 {
-  "name": "project-diarioofc",
+   "name": "project-diarioofc",
   "version": "0.0.1",
+  "engines": {
+    "node": "24.5.0"
+  },
   "description": "",
   "author": "",
   "private": true,
@@ -24,7 +27,6 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^9.0.0",
-    "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.1.3",
